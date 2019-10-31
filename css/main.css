@@ -1,0 +1,41 @@
+* {
+    box-sizing: border-box;
+  }
+  .player-board{
+    display:flex;
+}
+.parentGrid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    grid-template-rows: repeat(1, 1fr);
+   
+}
+
+  #grid-1{
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    grid-template-rows: repeat(10, 1fr);
+    border-style: solid;
+    border-color:purple;      
+
+  }
+
+  .space {
+      height: 65px;
+      width: 65px;
+      border-style: solid;
+      border-color: black;
+
+  }
+
+  .topRow {
+    display: flex;
+    justify-content: space-around;
+    width: 650px;
+  }
+  .column{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+  }   
+ 
