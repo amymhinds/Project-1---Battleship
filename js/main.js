@@ -4,13 +4,15 @@ var gameBoard2=document.getElementById('grid-2');
 const playButton = document.getElementById('play');
 
 
-/* initialize user ship object*/ 
+/* initialize user ship arrays*/ 
 var userShips = {
-carrier: [],
-battleship: [],
-cruiser: [],
-submarine: [],
-destroyer: []}
+carrier: [null, null, null, null, null],
+battleship: [null, null, null, null],
+cruiser: [null, null, null],
+submarine: [null, null, null],
+destroyer: [null, null]
+}
+
 
 /*Create the two game boards */
 var letters= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -58,25 +60,82 @@ function handleClick(evt){
 
 
 
-
-
-
-
-
-
-//add event listener on grid-1 "onclick"
-
-function carrier(evt){
-    // update gameboard with evt.target (space)
-    // update carrier array with the targets value A1...
-    // if statement length >= 5
-        // grid-1 .removeEvenrListener('click', carrier)
-        // grid-1.addefyfgfg('click', battleship)
-        document.getElementById('battlship').style.display = "block";
+for(ship in userShips){
+    gameBoard1.addEventListener('click', shipClick);
+     
 }
 
+function shipClick(evt) {
+   
+        var clickedSpace = evt.target;
+        clickedSpace.style.backgroundColor= 'black';
+        ship.splice(i, 1, clickedSpace.id);
+    
+    
+    if(ship[ship.length-1] !== null){
+        gameBoard1.removeEventListener('click', shipClick);
+        gameBoard1.addEventListener('click', shipClick);
+        
+    }
+};
 
 
 
-document.
+
+
+
+
+// //add event listener on grid-1 "onclick"
+// gameBoard1.addEventListener('click', carrier);
+
+// function carrier(evt){
+//     // update gameboard with evt.target (space)
+//     var clickedSpace = evt.target;
+//     clickedSpace.style.backgroundColor= 'black';
+//     // update carrier array with the targets value A1...
+//     carrierArray.push(clickedSpace.id);
+//     // if the carrier is five spaces long, remove evt listener for 
+//     //carrier and add battleship listener
+//     if(carrierArray.length===5){
+//         gameBoard1.removeEventListener('click', carrier);
+//         gameBoard1.addEventListener('click', battleship);
+//     }
+// }
+
+// function battleship(evt){
+//     var clickedSpace = evt.target;
+//     clickedSpace.style.backgroundColor= 'black';
+//     carrierArray.push(clickedSpace.id);
+//     if(carrierArray.length===4){
+//         gameBoard1.removeEventListener('click', battleship);
+//         gameBoard1.addEventListener('click', cruiser);
+//     }
+// }
+
+// function cruiser(evt){
+//     var clickedSpace = evt.target;
+//     clickedSpace.style.backgroundColor= 'black';
+//     carrierArray.push(clickedSpace.id);
+//     if(carrierArray.length===4){
+//         gameBoard1.removeEventListener('click', cruiser);
+//         gameBoard1.addEventListener('click', sub);
+//     }
+// }
+// function cruiser(evt){
+//     var clickedSpace = evt.target;
+//     clickedSpace.style.backgroundColor= 'black';
+//     carrierArray.push(clickedSpace.id);
+//     if(carrierArray.length===4){
+//         gameBoard1.removeEventListener('click', cruiser);
+//         gameBoard1.addEventListener('click', sub);
+//     }
+// }
+
+
+
+
+
+
+
+
     
