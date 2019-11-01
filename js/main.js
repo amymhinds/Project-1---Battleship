@@ -1,6 +1,6 @@
 /* Cached Elements*/ 
 gameBoard1= document.getElementById('grid-1');
-console.log(gameBoard1);
+
 gameBoard2=document.getElementById('grid-2');
 /*Create the two game boards */
 var letters= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -19,6 +19,6 @@ for(var i=1; i<=10; i++){
        newEl.id=x;
        gameBoard1.appendChild(newEl);
     });
-  console.log(gameBoard1);
+
 
     

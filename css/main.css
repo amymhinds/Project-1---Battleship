@@ -1,25 +1,33 @@
 * {
     box-sizing: border-box;
   }
+
+  
   .player-board{
     display:flex;
+    justify-content: center;
 }
+
+/* the container of the grid and the labels */
 .parentGrid {
+    border-color:purple;
+    border-style: solid;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     grid-template-rows: repeat(1, 1fr);
+    
    
 }
-
+/* the grid board itself */
   #grid-1{
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
     border-style: solid;
-    border-color:purple;      
+    background-image: url("https://imgur.com/HzYrOM5.png");  
 
   }
-
+/* each individual space/square */
   .space {
       height: 65px;
       width: 65px;
@@ -27,15 +35,22 @@
       border-color: black;
 
   }
-
+/* the letter lables */
   .topRow {
     display: flex;
     justify-content: space-around;
     width: 650px;
+    margin: auto;
+    
   }
+  /* the number labels */
   .column{
     display: flex;
     flex-direction: column;
     justify-content: space-around;
   }   
- 
+ /* titles and instructions */
+  h1 , h2, a{
+      display: flex;
+      justify-content: center;
+  }
