@@ -61,17 +61,30 @@ gameBoard1.addEventListener('click', shipClick);
 
 /*Create a click function that changes the  */
 function shipClick(evt) {
+
     let shipArray = userShips[shipName[shipIndex]];
     var clickedSpace = evt.target;
-    clickedSpace.style.backgroundColor= 'black';
-    /*takes the first null in the ship array and replaces it with the id
-    of the clicked square */
-    shipArray.splice(shipArray.indexOf(null), 1, clickedSpace.id);
-    /*Once there are no more nulls in the array, move on to the next ship
-    by increasing the index in the usership object
-    Also add a note to the user to set the next ship */
-    if (shipArray[shipArray.length - 1] !== null) {
-        shipIndex++;
-        document.getElementById(`${shipName[shipIndex]}`).style.display='block';
+    if(clickedSpace.style.backgroundColor !== 'black'){
+        clickedSpace.style.backgroundColor= 'black';
+        /*takes the first null in the ship array and replaces it with the id
+        of the clicked square */
+
+        shipArray.splice(shipArray.indexOf(null), 1, clickedSpace.id);
+    
+
+        /*Once there are no more nulls in the array, move on to the next ship
+        by increasing the index in the usership object
+        Also add a note to the user to set the next ship */
+        if (shipArray[shipArray.length - 1] !== null) {
+            shipIndex++;
+            /* remove event listener when all ships placed */
+            if (shipIndex>4)
+                {
+                    gameBoard1.removeEventListener('click', shipClick);
+                    return;
+                }
+            document.getElementById(`${shipName[shipIndex]}`).style.display='block';
+        }
     }
+
 };
