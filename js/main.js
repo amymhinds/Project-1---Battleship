@@ -9,9 +9,31 @@ var userShips = {
 carrier: [null, null, null, null, null],
 battleship: [null, null, null, null],
 cruiser: [null, null, null],
-submarine: [null, null, null],
+sub: [null, null, null],
 destroyer: [null, null]
 }
+
+let shipName = Object.keys(userShips);
+let shipIndex = 0;
+
+// TESITNG 232345245
+
+gameBoard1.addEventListener('click', shipClick);
+
+function shipClick(evt) {
+    let shipArray = userShips[shipName[shipIndex]];
+    var clickedSpace = evt.target;
+    clickedSpace.style.backgroundColor= 'black';
+    shipArray.splice(shipArray.indexOf(null), 1, clickedSpace.id);
+    if (shipArray[shipArray.length - 1] !== null) {
+        shipIndex++;
+        document.getElementById(`${shipName[shipIndex]}`).style.display='block';
+    }
+};
+
+
+
+// MORE TESTING 23r2e4523
 
 
 /*Create the two game boards */
@@ -60,24 +82,23 @@ function handleClick(evt){
 
 
 
-for(ship in userShips){
-    gameBoard1.addEventListener('click', shipClick);
-     
-}
-
-function shipClick(evt) {
-   
-        var clickedSpace = evt.target;
-        clickedSpace.style.backgroundColor= 'black';
-        ship.splice(i, 1, clickedSpace.id);
-    
-    
-    if(ship[ship.length-1] !== null){
-        gameBoard1.removeEventListener('click', shipClick);
-        gameBoard1.addEventListener('click', shipClick);
+// for(ship in userShips){
+//     gameBoard1.addEventListener('click', function shipClick(evt) {
+//         var clickedSpace = evt.target;
+//         clickedSpace.style.backgroundColor= 'black';
+//         userShips[ship].splice(ship.indexOf(null), 1, clickedSpace.id);
         
-    }
-};
+//         if(ship[ship.length-1] !== null){
+//             gameBoard1.removeEventListener('click', shipClick);
+//             gameBoard1.addEventListener('click', shipClick);
+//         }
+//     });
+// }
+
+// for(ship in userShips){
+//  gameBoard1.addEventListener('click', shipClick(evt, ship))
+// };
+
 
 
 
