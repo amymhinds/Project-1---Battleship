@@ -9,9 +9,26 @@
     <script defer src="js/main.js"></script>
 </head>
 <body>
-    <h1>Battleship</h1>
+    <h1>BATTLESHIP</h1>
     <a href="https://www.cs.nmsu.edu/~bdu/TA/487/brules.htm">Instructions</a> 
-    <h2>Player's Grid</h2> 
+    <div class = "buttons">
+        <button id = "play">Play</button>
+        <h2>Player's Grid</h2> 
+        <button id = "reset">Reset</button>
+    </div>
+    <div class = "place-ships">
+        <ul>
+            <li>Place ships by clicking on each grid square. Must be adjacent.
+                Can be horizontal or vertical, not diagonal.
+            </li>
+            <li id="carrier">Place Carrier - 5 spaces</li>
+            <li id="battleship">Place Battleship - 4 spaces</li>
+            <li id="cruiser">Place Cruiser - 3 spaces</li>
+            <li id="sub">Place Submarine - 3 spaces</li>
+            <li id="destroyer">Place Destroyer - 2 spaces</li>
+
+        </ul>
+    </div>
     <div class="parentGrid">
     <div class = "topRow">   
         <div class ="letters">A</div>
@@ -27,9 +44,6 @@
      </div>
     
     <div class = "player-board">
-        
-         
-        
         <div class= "column">
             <div class ="nums">1</div>
             <div class ="nums">2</div>

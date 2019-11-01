@@ -1,22 +1,16 @@
 * {
     box-sizing: border-box;
   }
-
-  
+/* container for the number labels and the grid */
   .player-board{
     display:flex;
     justify-content: center;
 }
-
 /* the container of the grid and the labels */
 .parentGrid {
-    border-color:purple;
-    border-style: solid;
     display: grid;
     grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: repeat(1, 1fr);
-    
-   
+    grid-template-rows: repeat(1, 1fr);   
 }
 /* the grid board itself */
   #grid-1{
@@ -25,7 +19,6 @@
     grid-template-rows: repeat(10, 1fr);
     border-style: solid;
     background-image: url("https://imgur.com/HzYrOM5.png");  
-
   }
 /* each individual space/square */
   .space {
@@ -33,15 +26,13 @@
       width: 65px;
       border-style: solid;
       border-color: black;
-
   }
 /* the letter lables */
   .topRow {
     display: flex;
     justify-content: space-around;
     width: 650px;
-    margin: auto;
-    
+    margin: auto; 
   }
   /* the number labels */
   .column{
@@ -50,7 +41,29 @@
     justify-content: space-around;
   }   
  /* titles and instructions */
-  h1 , h2, a{
+  h1 , .buttons, h2, a{
       display: flex;
       justify-content: center;
+      font-family:Courier, monospace;
   }
+button {
+    height: 30px;
+    margin: auto;
+}
+#play{
+    background-color: #44F08C;
+}
+#reset{
+    background-color: #FF4A60;
+    font-family:Courier, monospace;
+    font-style: bold;
+}
+.place-ships{
+    display:flex;
+    justify-content: center;
+    font-family:Courier, monospace;
+    text-align: center;
+}
+#carrier, #battleship, #cruiser, #sub, #destroyer{
+    color: navy;
+}
