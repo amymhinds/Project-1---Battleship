@@ -13,7 +13,12 @@ sub: [null, null, null],
 destroyer: [null, null]
 }
 
-
+/* Initialize random computer ships */
+var randCarrier = [];
+var randBattleship = [];
+var randCruiser = [];
+var randSub=[];
+var randDestroyer=[];
 
 /*Create the two game boards */
 var letters= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
@@ -31,6 +36,8 @@ for (var i=0; i<6; i++){
         carrierIndices.push(x+10*i);
     })
 }
+/*make array of entire grid minus one row for all other ships to be placed on the board */
+/*these are the indices of B2 to I2 */
 var gridLessOneRow = [11,12,13,14,15,16,17,18];
 var otherShipIndices = [];
 for(var i=0; i<8; i++){
@@ -38,6 +45,8 @@ for(var i=0; i<8; i++){
         otherShipIndices.push(x+10*i);
     })
 }
+
+
 /*Create gameboard array of all spaces*/ 
 for(var i=1; i<=10; i++){
    letters.forEach(x => board1.push(x+i));
@@ -129,3 +138,16 @@ function toggleToPlayerBoard(){
     gameBoard1.style.display = "";
     gameBoard2.style.display = "none";
 }
+
+/*function to getnerate random numbers and create ship placement */
+function computerShipPlacement(){
+    /*function to create center of the Carrier */
+    randCarrier = carrierIndices[Math.floor(Math.random() * carrierIndices.length)];
+    document.getElementById(`${board2[randCarrier]}`).style.backgroundColor = 'black';
+    /* either one or two. if one, vertical, if 2 horizontal ship placement */
+    var vertOrHor = Math.floor(Math.random() * 2 + 1)
+    console.log(vertOrHor);
+    
+
+}
+computerShipPlacement();
