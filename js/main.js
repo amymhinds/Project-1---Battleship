@@ -34,6 +34,12 @@ board1.forEach(x => {
     newEl.id=x;
     gameBoard1.appendChild(newEl);
 });
+board2.forEach(x => {
+    var newEl= document.createElement('div');
+    newEl.classList.add('space');
+    newEl.id=x;
+    gameBoard2.appendChild(newEl);
+});
 
 /*Set display to none for setting ships*/
 function init(){
@@ -42,10 +48,12 @@ function init(){
     document.getElementById('cruiser').style.display = "none";
     document.getElementById('sub').style.display = "none";
     document.getElementById('destroyer').style.display = "none";
-
+    document.getElementById('compBoard').style.display = "none";
+    gameBoard2.style.display = "none";
 }
 init();
 
+/*start the game*/
 playButton.addEventListener('click', handleClick);
 function handleClick(evt){
     init();
@@ -68,10 +76,8 @@ function shipClick(evt) {
         clickedSpace.style.backgroundColor= 'black';
         /*takes the first null in the ship array and replaces it with the id
         of the clicked square */
-
         shipArray.splice(shipArray.indexOf(null), 1, clickedSpace.id);
     
-
         /*Once there are no more nulls in the array, move on to the next ship
         by increasing the index in the usership object
         Also add a note to the user to set the next ship */
@@ -81,6 +87,12 @@ function shipClick(evt) {
             if (shipIndex>4)
                 {
                     gameBoard1.removeEventListener('click', shipClick);
+                    document.getElementById('carrier').style.display = "none";
+                    document.getElementById('battleship').style.display = "none";
+                    document.getElementById('cruiser').style.display = "none";
+                    document.getElementById('sub').style.display = "none";
+                    document.getElementById('destroyer').style.display = "none";
+                    document.getElementById('compBoard').style.display = "block";
                     return;
                 }
             document.getElementById(`${shipName[shipIndex]}`).style.display='block';
@@ -88,3 +100,10 @@ function shipClick(evt) {
     }
 
 };
+/*Add event listener on beginning fire button */
+document.getElementById('compBoard').addEventListener('click', initialFire);
+
+function initialFire(evt){
+    gameBoard1.style.display = "none";
+    gameBoard2.style.display = "";
+}

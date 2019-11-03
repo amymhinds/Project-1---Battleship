@@ -13,7 +13,7 @@
     grid-template-rows: repeat(1, 1fr);   
 }
 /* the grid board itself */
-  #grid-1{
+  #grid-1, #grid-2{
     display: grid;
     grid-template-columns: repeat(10, 1fr);
     grid-template-rows: repeat(10, 1fr);
@@ -46,7 +46,7 @@
       justify-content: center;
       font-family:Courier, monospace;
   }
-button {
+.buttons {
     height: 30px;
     margin: auto;
 }
@@ -66,4 +66,14 @@ button {
 }
 #carrier, #battleship, #cruiser, #sub, #destroyer{
     color: navy;
+}
+
+#compBoard{
+  display: flex;
+  background-color: yellow;
+  font-family:Courier, monospace;
+  font-style: bold;
+  justify-content: center;
+  text-align:center;
+  margin: auto;
 }
