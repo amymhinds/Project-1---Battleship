@@ -20,7 +20,24 @@ var letters= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 var nums = [1,2,3,4,5,6,7,8,9,10];
 var board1=[];
 var board2=[];
-
+/*Make an array for the indices possible for the center of the carrier.
+  This is C3-C8 by H3-H8 on the grid. If the random center is generated
+  within this area, the carrier (5 spaces) will be able to fit on the board.*/
+/*22-28 are the indices of C3-C8 */
+var compCarrier = [22,23,24,25,26,27];
+var carrierIndices = [];
+for (var i=0; i<6; i++){
+    compCarrier.forEach(x=>{
+        carrierIndices.push(x+10*i);
+    })
+}
+var gridLessOneRow = [11,12,13,14,15,16,17,18];
+var otherShipIndices = [];
+for(var i=0; i<8; i++){
+    gridLessOneRow.forEach(x=>{
+        otherShipIndices.push(x+10*i);
+    })
+}
 /*Create gameboard array of all spaces*/ 
 for(var i=1; i<=10; i++){
    letters.forEach(x => board1.push(x+i));
@@ -101,9 +118,14 @@ function shipClick(evt) {
 
 };
 /*Add event listener on beginning fire button */
-document.getElementById('compBoard').addEventListener('click', initialFire);
+document.getElementById('compBoard').addEventListener('click', toggleToCompBoard);
 
-function initialFire(evt){
+/*this function hides the player board and toggles to the comp board*/
+function toggleToCompBoard(evt){
     gameBoard1.style.display = "none";
     gameBoard2.style.display = "";
+}
+function toggleToPlayerBoard(){
+    gameBoard1.style.display = "";
+    gameBoard2.style.display = "none";
 }
