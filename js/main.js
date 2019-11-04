@@ -151,14 +151,17 @@ let compShipIndex = 0;
 /*function to getnerate random numbers and create ship placement */
 function computerShipPlacement(){
    console.log(compShipName);
-   var vertOrHor =1;
+   var vertOrHor =2;
    var vertRandCol;
    var vertRandRow;
+   var horRandCol;
+   var horRandRow;
+   var horColIndex;
    var compShipSpaces = [];
     for(compShipName in compShips){
-        //vertOrHor = Math.floor(Math.random() * 2 + 1);
+       // vertOrHor = Math.floor(Math.random() * 2 + 1);
         console.log(compShips[compShipName].length);
-        /*if it is vertical*/
+        /*Vertical Case */
         if(vertOrHor===1){        
             function vertical(){
             /*Pick random column and start of random row */ 
@@ -181,18 +184,53 @@ function computerShipPlacement(){
              compShipSpaces array so we know which spaces are no longer available.  */
                 else {
                     compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${vertRandCol}`+i );
-                    document.getElementById(`${vertRandCol}`+i).style.backgroundColor = 'black';
                     compShipSpaces.push(`${vertRandCol}`+i);
                 }        
             }   
         }
         vertical();   
-        }   
-
+        }
+        /*Horizontal Case */
+        else {
+            function horizontal(){
+                horRandRow = Math.floor(Math.random()*10+1);
+                horColIndex = Math.floor(Math.random()*(11-compShips[compShipName].length));
+                horRandCol= letters[horColIndex];
+                for(var i = horColIndex; i<horColIndex + compShips[compShipName].length; i++)
+                {
+                /*if the compShipSpaces array already contains the random generated
+                space, then reset that ships array to all nulls and call the vertical
+                function again so it can repick a new random loc */
+                console.log(`${letters[i]}`+`${horRandRow}`);
+                if(compShipSpaces.includes(`${letters[i]}`+`${horRandRow}`)){
+                    //compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${letters[i]}`+`${horRandRow}`);
+                    for(var j=0; j<compShips[compShipName].length; j++) {
+                        compShips[compShipName][j]=null;  
+                    }
+                        horizontal();
+                    }
+                /*fill array in compShips object for each ship with grid locations
+                and color the spaces black. Also push the taken space to the 
+                compShipSpaces array so we know which spaces are no longer available.  */
+                else {
+                    compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${letters[i]}`+`${horRandRow}` );
+                    compShipSpaces.push(`${letters[i]}`+`${horRandRow}`);
+                }        
+                }   
+            }
+            
+        horizontal();
+        }
         
+    
 
-        
     }
+/*color the spaces in the compShip object black*/
+for(compShipName in compShips){
+    compShips[compShipName].forEach(x=>{
+        document.getElementById(x).style.backgroundColor = 'black';
+    })
+}
+console.log(compShips);    
 }
 computerShipPlacement();
-console.log(compShips);
