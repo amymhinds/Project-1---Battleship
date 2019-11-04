@@ -163,15 +163,22 @@ function computerShipPlacement(){
             function vertical(){
             /*Pick random column and start of random row */ 
                 vertRandCol = letters[Math.floor(Math.random() * 10)];
+                /*Pick random row based on how long the ship is */
                 vertRandRow = Math.floor(Math.random()*(11-compShips[compShipName].length)+1);
-            /*fill array in compShips object for each ship with grid locations */
+                /*iterate through the rand row to the length of the ship */
                 for(i = vertRandRow; i<vertRandRow + compShips[compShipName].length; i++)
                 {
-                 if(compShipSpaces.includes(`${vertRandCol}`+i)){
+                /*if the compShipSpaces array already contains the random generated
+                space, then reset that ships array to all nulls and call the vertical
+                function again so it can repick a new random loc */
+                if(compShipSpaces.includes(`${vertRandCol}`+i)){
                     for(var j=0; j<compShips[compShipName].length; j++)
                         compShips[compShipName][j]=null;
                         vertical();
                     }
+             /*fill array in compShips object for each ship with grid locations
+             and color the spaces black. Also push the taken space to the 
+             compShipSpaces array so we know which spaces are no longer available.  */
                 else {
                     compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${vertRandCol}`+i );
                     document.getElementById(`${vertRandCol}`+i).style.backgroundColor = 'black';
@@ -179,12 +186,10 @@ function computerShipPlacement(){
                 }        
             }   
         }
-   
-        vertical();
-            
+        vertical();   
         }   
+
         
-        /*Push spaces already taken by ships into array to keep track */
 
         
     }
