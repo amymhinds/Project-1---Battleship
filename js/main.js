@@ -14,37 +14,38 @@ destroyer: [null, null]
 }
 
 /* Initialize random computer ships */
-var randCarrier = [];
-var randBattleship = [];
-var randCruiser = [];
-var randSub=[];
-var randDestroyer=[];
-
+var compShips = {
+randCarrier: [null, null, null, null, null],
+randBattleship: [null, null, null, null],
+randCruiser: [null, null, null],
+randSub: [null, null, null],
+randDestroyer: [null, null]
+}
 /*Create the two game boards */
-var letters= ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
+var letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
 var nums = [1,2,3,4,5,6,7,8,9,10];
-var board1=[];
-var board2=[];
+var board1 = [];
+var board2 = [];
 /*Make an array for the indices possible for the center of the carrier.
   This is C3-C8 by H3-H8 on the grid. If the random center is generated
   within this area, the carrier (5 spaces) will be able to fit on the board.*/
 /*22-28 are the indices of C3-C8 */
-var compCarrier = [22,23,24,25,26,27];
-var carrierIndices = [];
-for (var i=0; i<6; i++){
-    compCarrier.forEach(x=>{
-        carrierIndices.push(x+10*i);
-    })
-}
+// var compCarrier = [22,23,24,25,26,27];
+// var carrierIndices = [];
+// for (var i=0; i<6; i++){
+//     compCarrier.forEach(x=>{
+//         carrierIndices.push(x+10*i);
+//     })
+// }
 /*make array of entire grid minus one row for all other ships to be placed on the board */
 /*these are the indices of B2 to I2 */
-var gridLessOneRow = [11,12,13,14,15,16,17,18];
-var otherShipIndices = [];
-for(var i=0; i<8; i++){
-    gridLessOneRow.forEach(x=>{
-        otherShipIndices.push(x+10*i);
-    })
-}
+// var gridLessOneRow = [11,12,13,14,15,16,17,18];
+// var otherShipIndices = [];
+// for(var i=0; i<8; i++){
+//     gridLessOneRow.forEach(x=>{
+//         otherShipIndices.push(x+10*i);
+//     })
+// }
 
 
 /*Create gameboard array of all spaces*/ 
@@ -139,15 +140,45 @@ function toggleToPlayerBoard(){
     gameBoard2.style.display = "none";
 }
 
+
+
+/*define variables to help in setting up the ships*/
+let compShipName = Object.keys(compShips);
+let compShipIndex = 0;
+
+
+
 /*function to getnerate random numbers and create ship placement */
 function computerShipPlacement(){
     /*function to create center of the Carrier */
-    randCarrier = carrierIndices[Math.floor(Math.random() * carrierIndices.length)];
-    document.getElementById(`${board2[randCarrier]}`).style.backgroundColor = 'black';
-    /* either one or two. if one, vertical, if 2 horizontal ship placement */
-    var vertOrHor = Math.floor(Math.random() * 2 + 1)
-    console.log(vertOrHor);
-    
-
+//     randCarrier = carrierIndices[Math.floor(Math.random() * carrierIndices.length)];
+//     document.getElementById(`${board2[randCarrier]}`).style.backgroundColor = 'black';
+//     /* either one or two. if one, vertical, if 2 horizontal ship placement */
+//     var vertOrHor = Math.floor(Math.random() * 2 + 1)
+//     console.log(vertOrHor);
+//     if(vertOrHor===1)
+//     {
+//         console.log(board2[randCarrier]);
+//         console.log(board2[randCarrier].charAt(1));
+//         /*then add two up and down :D */
+//     }
+    console.log(compShipName);
+   let compShipArray = compShips[compShipName[compShipIndex]];
+   var vertOrHor =1;
+   var vertRandCol;
+   var vertRandRow;
+    for(compShipName in compShips){
+        //vertOrHor = Math.floor(Math.random() * 2 + 1);
+        console.log(compShips[compShipName].length);
+        /*if it is vertical*/
+        if(vertOrHor===1){         
+            vertRandCol = letters[Math.floor(Math.random() * 10)];
+            vertRandRow = Math.floor(Math.random()*compShips[compShipName].length+1);
+            for(i = vertRandRow; i<vertRandRow + compShips[compShipName].length; i++){
+                compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${vertRandCol}`+i );
+            }
+        console.log(compShips);
+        }
+    }
 }
 computerShipPlacement();
