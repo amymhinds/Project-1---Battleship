@@ -163,22 +163,42 @@ function computerShipPlacement(){
 //         /*then add two up and down :D */
 //     }
     console.log(compShipName);
-   let compShipArray = compShips[compShipName[compShipIndex]];
    var vertOrHor =1;
    var vertRandCol;
    var vertRandRow;
+   var compShipSpaces = [];
     for(compShipName in compShips){
         //vertOrHor = Math.floor(Math.random() * 2 + 1);
         console.log(compShips[compShipName].length);
         /*if it is vertical*/
-        if(vertOrHor===1){         
+        if(vertOrHor===1){        
+        
+        function vertical(){
+        /*Pick random column and start of random row */ 
             vertRandCol = letters[Math.floor(Math.random() * 10)];
-            vertRandRow = Math.floor(Math.random()*compShips[compShipName].length+1);
-            for(i = vertRandRow; i<vertRandRow + compShips[compShipName].length; i++){
+            vertRandRow = Math.floor(Math.random()*(11-compShips[compShipName].length)+1);
+        /*fill array in compShips object for each ship with grid locations */
+            for(i = vertRandRow; i<vertRandRow + compShips[compShipName].length; i++)
+            {
+                if(compShipSpaces.some(`${vertRandCol}`+i)){
+                    for(i=0; i<compShips[compShipName.length]; i++)
+                    compShips[compShipName][i]=null;
+                    vertical();
+                }
+                
                 compShips[compShipName].splice(compShips[compShipName].indexOf(null), 1, `${vertRandCol}`+i );
+                document.getElementById(`${vertRandCol}`+i).style.backgroundColor = 'black';
             }
-        console.log(compShips);
         }
+        vertical();
+    }   
+        
+        /*Push spaces already taken by ships into array to keep track */
+        compShips[compShipName].forEach(x=>
+            {
+                compShipSpaces.push(x);
+            })
+    
     }
 }
 computerShipPlacement();
