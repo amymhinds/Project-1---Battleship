@@ -203,14 +203,56 @@ function computerShipPlacement(){
 /*color the spaces in the compShip object black*/
 for(compShipName in compShips){
 
-    compShips[compShipName].forEach(x=>{
-        
+    compShips[compShipName].forEach(x=>{  
            document.getElementById('comp-'+x).style.backgroundColor = 'black';
-       
-        
     })
 }
 console.log(compShips);    
 }
 
 computerShipPlacement();
+playersTurn();
+var checkWinnerArray = [];
+
+/*make function for player to be able to fire on comp ships */
+function playersTurn(){
+
+gameBoard2.addEventListener('click', compBoardClick);
+
+/*Create a click function that changes the comp board*/
+function compBoardClick(evt) {
+    var clickedSpace = evt.target;
+    var clickedId= clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
+    console.log(clickedId);
+    for(compShipName in compShips){
+        for(i=0; i<compShipName.length; i++)
+        {
+            if(clickedId===compShips[compShipName][i])
+            {
+                console.log("hit")
+                clickedSpace.style.backgroundColor='red';
+                compShips[compShipName][i]='hit';
+            }  
+        }
+        if(compShips[compShipName].every(x=> {
+            return x==='hit' })){
+               console.log(compShipName + ' sunk');
+               checkWinnerArray.push(compShipName);
+            }
+           /*change you won alert to message on board */ 
+        if(checkWinnerArray.includes('randCarrier'&&'randDestroyer'&&
+        'randSub'&&'randBattleship'&&'randCruiser')){
+            window.alert("You Won!!!!");
+        }
+    
+        
+    }
+  
+    if(clickedSpace.style.backgroundColor !== 'red'){
+        clickedSpace.style.backgroundColor ='white';
+        console.log('miss');
+    }
+    
+
+}
+}
