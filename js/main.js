@@ -83,7 +83,9 @@ var placement;
 function shipClick(evt) {
     let shipArray = userShips[shipName[shipIndex]];
     var clickedSpace = evt.target;
-    var clickedSpaceId = clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
+    var rowNum=clickedSpace.id.charAt(6)+clickedSpace.id.charAt(7);
+
+    var clickedSpaceId = clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6)+clickedSpace.id.charAt(7);
     var clickedSpaceIdIndex = board1.indexOf(clickedSpaceId);
 
 
@@ -98,51 +100,51 @@ function shipClick(evt) {
         if(shipArray[0]!==null && shipArray[1]===null)
         {   
            
-            if(((parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
+            if(((parseInt(shipArray[0].charAt(1)+shipArray[0].charAt(2))===parseInt(rowNum)+1 && 
                 shipArray[0].charAt(0)===clickedSpaceId.charAt(0))||
-                parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
+                parseInt(shipArray[0].charAt(1))===parseInt(rowNum)-1
                 && shipArray[0].charAt(0)===clickedSpaceId.charAt(0))
                 // or if it is horizontal one space
                 || (
                  (board1.indexOf(shipArray[0]) ===clickedSpaceIdIndex -1 ) ||
                  (board1.indexOf(shipArray[0]) ===clickedSpaceIdIndex +1)))
                 {
-                    console.log('hor or vert');
-                    clickedSpace.style.backgroundColor= 'black';
-                    
+                    clickedSpace.style.backgroundColor= 'black';      
                 }
-
-            console.log(parseInt(clickedSpaceId.charAt(1))+1);
-            if((parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
+            
+            if((parseInt(shipArray[0].charAt(1)+shipArray[0].charAt(2))===parseInt(rowNum)+1 && 
             shipArray[0].charAt(0)===clickedSpaceId.charAt(0))||
-            parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
+            parseInt(shipArray[0].charAt(1)+shipArray[0].charAt(2))===parseInt(rowNum)-1
             && shipArray[0].charAt(0)===clickedSpaceId.charAt(0)) {
                 placement='vertical';
             }
             else{
+
                 placement="horizontal";
             }
         }
-        
-   
-        
-        console.log(placement);
-
 
         /*takes the first null in the ship array and replaces it with the id
         of the clicked square */
-       
-
 
         if(placement==='vertical' && shipArray[1]!==null){
+           // if(shipArray[1]!==null){ 
             console.log('this is first thing ' + shipArray[shipArray.indexOf(null)-1]);
             console.log('this is second thing' + (clickedSpaceId.charAt(1)));
-            if((parseInt(shipArray[shipArray.indexOf(null)-1].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
-            shipArray[indexOf(null)-1].charAt(0)===clickedSpaceId.charAt(0))||(
-            parseInt(shipArray[shipArray.indexOf(null)-1].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
-            && shipArray[shipArray.indexOf(null)-1].charAt(0)===clickedSpaceId.charAt(0))){
-                clickedSpace.style.backgroundColor='black';
+            shipArray.forEach(x=>{
+                if(x === null){
+                   
+                }
+                else if(((parseInt(x.charAt(1)+x.charAt(2)) === parseInt(rowNum)+1)
+                && x.charAt(0)===clickedSpaceId.charAt(0)) ||
+                ((parseInt(x.charAt(1)+x.charAt(2)) === parseInt(rowNum)-1)
+                && x.charAt(0)===clickedSpaceId.charAt(0))){
+                    clickedSpace.style.backgroundColor='black';
+                }
+               // console.log('new test ' + parseInt(x.charAt(1)+x.charAt(2)));
+               console.log('this is x'+ x);
             }
+            )
         }
         console.log('placement' + placement);
 
