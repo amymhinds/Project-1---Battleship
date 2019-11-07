@@ -2,8 +2,9 @@
 var gameBoard1= document.getElementById('grid-1');
 var gameBoard2=document.getElementById('grid-2');
 const playButton = document.getElementById('play');
-
-
+var playerHeader = document.getElementById('playerGridTitle');
+var compHeader = document.getElementById('compGridTitle');
+var newGame;
 /* initialize user ship arrays*/ 
 var userShips = {
 carrier: [null, null, null, null, null],
@@ -46,9 +47,9 @@ board2.forEach(x => {
     newEl.id='comp-'+x;
     gameBoard2.appendChild(newEl);
 });
-
 /*Set display to none for setting ships*/
 function init(){
+
     document.getElementById('carrier').style.display = "none";
     document.getElementById('battleship').style.display = "none";
     document.getElementById('cruiser').style.display = "none";
@@ -56,7 +57,10 @@ function init(){
     document.getElementById('destroyer').style.display = "none";
     document.getElementById('compBoard').style.display = "none";
     gameBoard2.style.display = "none";
+    compHeader.style.display = "none";
     gameBoard1.style.display ='';
+
+    
 }
 init();
 
@@ -73,16 +77,79 @@ function handleClick(evt){
 let shipName = Object.keys(userShips);
 let shipIndex = 0;
 /*Create a click function on the comp board for user to click
-a grid space, and it will calculate if its a hit or miss.
-Also calculates which ship sunk, and if all ships are sunk  */
+a grid space, and place their ships */
+var placement;
+
 function shipClick(evt) {
     let shipArray = userShips[shipName[shipIndex]];
     var clickedSpace = evt.target;
+    var clickedSpaceId = clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
+    var clickedSpaceIdIndex = board1.indexOf(clickedSpaceId);
+
+
     if(clickedSpace.style.backgroundColor !== 'black'){
+        //clickedSpace.style.backgroundColor= 'black';
+      
+       if(shipArray[0]===null){
         clickedSpace.style.backgroundColor= 'black';
+       }
+        /*if the second index is being filled in the ship array (determines if 
+        user is choosing to place vertical or horizontal)*/
+        if(shipArray[0]!==null && shipArray[1]===null)
+        {   
+           
+            if(((parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
+                shipArray[0].charAt(0)===clickedSpaceId.charAt(0))||
+                parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
+                && shipArray[0].charAt(0)===clickedSpaceId.charAt(0))
+                // or if it is horizontal one space
+                || (
+                 (board1.indexOf(shipArray[0]) ===clickedSpaceIdIndex -1 ) ||
+                 (board1.indexOf(shipArray[0]) ===clickedSpaceIdIndex +1)))
+                {
+                    console.log('hor or vert');
+                    clickedSpace.style.backgroundColor= 'black';
+                    
+                }
+
+            console.log(parseInt(clickedSpaceId.charAt(1))+1);
+            if((parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
+            shipArray[0].charAt(0)===clickedSpaceId.charAt(0))||
+            parseInt(shipArray[0].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
+            && shipArray[0].charAt(0)===clickedSpaceId.charAt(0)) {
+                placement='vertical';
+            }
+            else{
+                placement="horizontal";
+            }
+        }
+        
+   
+        
+        console.log(placement);
+
+
         /*takes the first null in the ship array and replaces it with the id
         of the clicked square */
-        shipArray.splice(shipArray.indexOf(null), 1, clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6));
+       
+
+
+        if(placement==='vertical' && shipArray[1]!==null){
+            console.log('this is first thing ' + shipArray[shipArray.indexOf(null)-1]);
+            console.log('this is second thing' + (clickedSpaceId.charAt(1)));
+            if((parseInt(shipArray[shipArray.indexOf(null)-1].charAt(1))===parseInt(clickedSpaceId.charAt(1))+1 && 
+            shipArray[indexOf(null)-1].charAt(0)===clickedSpaceId.charAt(0))||(
+            parseInt(shipArray[shipArray.indexOf(null)-1].charAt(1))===parseInt(clickedSpaceId.charAt(1))-1
+            && shipArray[shipArray.indexOf(null)-1].charAt(0)===clickedSpaceId.charAt(0))){
+                clickedSpace.style.backgroundColor='black';
+            }
+        }
+        console.log('placement' + placement);
+
+        if(clickedSpace.style.backgroundColor==='black'){
+            shipArray.splice(shipArray.indexOf(null), 1, clickedSpaceId);
+            }
+
         /*Once there are no more nulls in the array, move on to the next ship
         by increasing the index in the usership object
         Also add a note to the user to set the next ship */
@@ -112,7 +179,8 @@ document.getElementById('compBoard').addEventListener('click', toggleToCompBoard
 function toggleToCompBoard(evt){
     gameBoard1.style.display = "none";
     gameBoard2.style.display = "";
-
+    compHeader.style.display = "";
+    playerHeader.style.display = "none";
 }
 /*define variables to help in setting up the ships*/
 let compShipName = Object.keys(compShips);
@@ -197,7 +265,9 @@ function computerShipPlacement(){
         })
     }  
 /*After comp ship place ships, call players turn function*/
+console.log('compshipplacement');
     playersTurn(); 
+    newGame = true;
 }
 
 /*invoke comp ship placement*/
@@ -208,40 +278,49 @@ var checkWinnerArray = [];
 function playersTurn(){
     // gameBoard1.style.display = "none";
     // gameBoard2.style.display = "";
+    console.log('players turn');
     gameBoard2.addEventListener('click', compBoardClick);
     /*Create a click function that changes the comp board*/
-    function compBoardClick(evt) {
-        var clickedSpace = evt.target;
-        var clickedId= clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
-        for(compShipName in compShips){
-            for(i=0; i<compShipName.length; i++){
-                if(clickedId===compShips[compShipName][i]){
-                    clickedSpace.style.backgroundColor='red';
-                    compShips[compShipName][i]='hit';
-                }  
-             }
-            if(compShips[compShipName].every(x=> {
-                return x==='hit' })){
-                checkWinnerArray.push(compShipName);
-            }
-           /*change you won alert to message on board */ 
-            if(checkWinnerArray.includes('randCarrier')&&
-                checkWinnerArray.includes('randDestroyer') &&
-                checkWinnerArray.includes('randCruiser') &&
-                checkWinnerArray.includes('randBattleship') &&
-                checkWinnerArray.includes('randSub')){
-                    window.alert("You Won!!!!");
-            }
-        }   
-        if(clickedSpace.style.backgroundColor !== 'red'){
-            clickedSpace.style.backgroundColor ='white';
-        }
-    /*make it so that when it switches to the computers turn and the players board,
-    there will be a slight delay */
-        gameBoard2.removeEventListener('click', compBoardClick);
-        setTimeout(compTurn, 2000);
-    }
+   
+    
 }
+
+
+function compBoardClick(evt) {
+    console.log('compboardclick');
+    var clickedSpace = evt.target;
+    var clickedId= clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
+    for(compShipName in compShips){
+        for(i=0; i<compShipName.length; i++){
+            if(clickedId===compShips[compShipName][i]){
+                clickedSpace.style.backgroundColor='red';
+                compShips[compShipName][i]='hit';
+            }  
+         }
+        if(compShips[compShipName].every(x=> {
+            return x==='hit' })){
+            checkWinnerArray.push(compShipName);
+        }
+       /*change you won alert to message on board */ 
+        if(checkWinnerArray.includes('randCarrier')&&
+            checkWinnerArray.includes('randDestroyer') &&
+            checkWinnerArray.includes('randCruiser') &&
+            checkWinnerArray.includes('randBattleship') &&
+            checkWinnerArray.includes('randSub')){
+                window.alert("You Won!!!!");
+        }
+    }   
+    if(clickedSpace.style.backgroundColor !== 'red'){
+        clickedSpace.style.backgroundColor ='white';
+    }
+/*make it so that when it switches to the computers turn and the players board,
+there will be a slight delay */
+    gameBoard2.removeEventListener('click', compBoardClick);
+    setTimeout(compTurn, 2000); 
+
+}
+
+
 /*Make the computer's turn function */
 /*Define variables below */
 var compHits = [];
@@ -250,8 +329,19 @@ var randGuess;
 var compGuess;
 var compCheckWinnerArray= [];
 function compTurn() {
+    //if(newGame===true ){
+    // for(i=0;i<100;i++){
+    //     if(document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black'){
+    //     document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';    
+    //     }
+    //     }
+   //}
+   console.log('computer is taking turn');
+   
     gameBoard1.style.display = "";
     gameBoard2.style.display = "none";
+    playerHeader.style.display = "";
+    compHeader.style.display = "none";
     randGuess = board2[Math.floor(Math.random() * 100)];
     compGuess = document.getElementById('user-'+randGuess);
     for(ShipName in userShips){
@@ -281,6 +371,56 @@ function compTurn() {
 if(compGuess.style.backgroundColor !== 'red'){
     compGuess.style.backgroundColor ='white';
     }
+    /*Invoke players turn so that at the end of comp turn the player can click 
+    fire on enemy and play */
 playersTurn();
+}
+
+/*Reset Button */
+document.getElementById('reset').addEventListener('click', reset)
+function reset()
+{
+    
+    console.log('reset');
+    
+    document.querySelectorAll('.space').forEach(x=>{
+        x.style.backgroundColor='transparent';
+    })
+    compHits = [];
+    compMisses= [];
+    compCheckWinnerArray= [];
+    checkWinnerArray = [];
+    compShipSpaces = [];
+    compShipIndex = 0;
+    shipIndex = 0;
+    userShips = {
+        carrier: [null, null, null, null, null],
+        battleship: [null, null, null, null],
+        cruiser: [null, null, null],
+        sub: [null, null, null],
+        destroyer: [null, null]
+        }
+        
+        /* Initialize random computer ships */
+    compShips = {
+        randCarrier: [null, null, null, null, null],
+        randBattleship: [null, null, null, null],
+        randCruiser: [null, null, null],
+        randSub: [null, null, null],
+        randDestroyer: [null, null]
+        }
+        playButton.addEventListener('click', handleClick);
+        init();
+        
+        console.log(document.getElementById('user-A1'));
+       
+        newGame=true;
+
+        for(i=0;i<100;i++){
+        if(document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black'){
+        document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';    
+        }
+        }
+        computerShipPlacement();
 }
       
