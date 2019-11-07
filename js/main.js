@@ -128,9 +128,8 @@ function shipClick(evt) {
         of the clicked square */
 
         if(placement==='vertical' && shipArray[1]!==null){
-           // if(shipArray[1]!==null){ 
-            console.log('this is first thing ' + shipArray[shipArray.indexOf(null)-1]);
-            console.log('this is second thing' + (clickedSpaceId.charAt(1)));
+ 
+
             shipArray.forEach(x=>{
                 if(x === null){
                    
@@ -141,11 +140,30 @@ function shipClick(evt) {
                 && x.charAt(0)===clickedSpaceId.charAt(0))){
                     clickedSpace.style.backgroundColor='black';
                 }
-               // console.log('new test ' + parseInt(x.charAt(1)+x.charAt(2)));
-               console.log('this is x'+ x);
             }
             )
         }
+
+        if(placement==='horizontal' && shipArray[1]!==null){
+         
+
+             shipArray.forEach(x=>{
+                 if(x === null){
+                    
+                 }
+                 else if(((board1.indexOf(x) === board1.indexOf(clickedSpaceId)+1)
+                 && x.charAt(1)+x.charAt(2)===rowNum) ||
+                 ((board1.indexOf(x) === board1.indexOf(clickedSpaceId)-1)
+                 && x.charAt(1)+x.charAt(2)===rowNum)){
+                     clickedSpace.style.backgroundColor='black';
+                 }
+             }
+             )
+         }
+
+
+
+
         console.log('placement' + placement);
 
         if(clickedSpace.style.backgroundColor==='black'){
