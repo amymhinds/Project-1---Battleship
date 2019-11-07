@@ -343,21 +343,18 @@ there will be a slight delay */
 
 /*Make the computer's turn function */
 /*Define variables below */
-var compHits = [];
-var compMisses= [];
+// var compHits = [];
+// var compMisses= [];
+var countTurn = 0;
+var countTurnArray = [];
+var compGuessArray = [];
 var randGuess;
 var compGuess;
 var compCheckWinnerArray= [];
+var hitVal='';
+
 function compTurn() {
-    //if(newGame===true ){
-    // for(i=0;i<100;i++){
-    //     if(document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black'){
-    //     document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';    
-    //     }
-    //     }
-   //}
-   console.log('computer is taking turn');
-   
+    countTurn+=1;
     gameBoard1.style.display = "";
     gameBoard2.style.display = "none";
     playerHeader.style.display = "";
@@ -365,17 +362,189 @@ function compTurn() {
     randGuess = board2[Math.floor(Math.random() * 100)];
     compGuess = document.getElementById('user-'+randGuess);
     for(ShipName in userShips){
+        //if the previous guess was not a hit or was sunk
+        if(countTurnArray[countTurn-1]!=="hit"||countTurnArray[countTurn-1]==="hit&sunk"){
+
         for(i=0; i<ShipName.length; i++){
             /*Color red if its a hit */
             if(randGuess===userShips[ShipName][i]){
                 compGuess.style.backgroundColor='red';
                 userShips[ShipName][i]='hit';
+                hitVal='hit';
+                countTurnArray.push(hitVal);
             }  
         }
+
+        }
+        /*if last turn was a hit that did not sink a ship and if the one before that was a miss
+            (saying it didnt figure out direction yet of vertical ship or horizontal*/
+        if(countTurnArray[countTurn-1]==="hit"&& countTurnArray[countTurn-1]!=="hit&sunk"&&
+        countTurnArray[countTurn-2]==="miss"){
+            //guess anywhere directly adjacent
+            //figure out direction
+            //if it is not a border element, guess anywhere within the four possibilities
+            if(compGuessArray[countTurn-2].charAt(0)!=='A' || compGuessArray[countTurn-2].charAt(0)!=='J' ||
+            compGuessArray[countTurn-2].charAt(1)!=='1'){
+                //random num one and four
+                randDirection = Math.floor(Math.random()*4+1);
+                //vertical up
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal right
+                else if(randDirection ===3){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal left
+                else{
+                        randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-1];
+                        compGuess=document.getElementById('user-'+ randGuess);
+                }
+
+            }
+            //if it is  a border element in column A and not a corner (1 or 10)
+           else if(compGuessArray[countTurn-2].charAt(0)==='A' && compGuessArray[countTurn-2].charAt(1)!=='1'){
+                //random num one and four
+                randDirection = Math.floor(Math.random()*3+1);
+                //vertical up
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal right
+                else if(randDirection ===3){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+            //if it is a border Element in column J and not a corner (1 or 10)
+            else if(compGuessArray[countTurn-2].charAt(0)==='J' && compGuessArray[countTurn-2].charAt(1)!=='1'){
+                //random num one and four
+                randDirection = Math.floor(Math.random()*3+1);
+                //vertical up
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal left
+                else if(randDirection ===3){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+             //if it is a bottom row 10 element and not a corner (not A or J)
+             else if(compGuessArray[countTurn-2].charAt(2)==='0' && (compGuessArray[countTurn-2].charAt(0)!=='A'
+             ||compGuessArray[countTurn-2].charAt(0)!=='J'))
+                {
+                //random num one and four
+                randDirection = Math.floor(Math.random()*3+1);
+                //horizontal right
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical up
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal left
+                else if(randDirection ===3){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+            //else if top row element and not corner
+            else if(compGuessArray[countTurn-2].charAt(1)==='1' && (compGuessArray[countTurn-2].charAt(0)!=='A'
+             ||compGuessArray[countTurn-2].charAt(0)!=='J'))
+                {
+                //random num one and four
+                randDirection = Math.floor(Math.random()*3+1);
+                //horizontal right
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //horizontal left
+                else if(randDirection ===3){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+
+            //if corner A1
+            else if (compGuessArray[countTurn-2]==='A1'){
+                randDirection =Math.floor(random()*2+1);
+                //horizontal right
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+
+            //if corner A10
+            else if (compGuessArray[countTurn-2]==='A10'){
+                randDirection =Math.floor(random()*2+1);
+                //horizontal left
+                if(randDirection ===1){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])-1];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+                //vertical down
+                else if(randDirection ===2){
+                    randGuess=board2[board2.indexOf(compGuessArray[countTurn-2])+10];
+                    compGuess=document.getElementById('user-'+ randGuess);
+                }
+            }
+
+
+
+
+
+            
+
+
+
+        }
+
+
+
+
+
             /*if the ship array in the userShips object is completely hit, it is sunk */
             if(userShips[ShipName].every(x=> {
                 return x==='hit' })){
                    checkCompWinnerArray.push(ShipName);
+                   hitVal='hit&sunk';
+                   countTurnArray.push(hitVal);
+
                 }
             /*change you won alert to message on board
             if the winner array contains all ships, comp won */ 
@@ -386,15 +555,34 @@ function compTurn() {
             compCheckWinnerArray.includes('sub')){
                 window.alert("Comp Won");
             }
-    }
+    
+
 
 if(compGuess.style.backgroundColor !== 'red'){
     compGuess.style.backgroundColor ='white';
+    /*only push miss if the last one was not a hit...
+    important in case you miss multiple times guessing adjacent to a cell*/
+    if(countTurnArray[countTurn-1]!=='hit'){
+        hitVal='miss';
+        countTurnArray.push(hitVal);
     }
+    
+    }
+    compGuessArray.push(randGuess);
+
+}
+
+console.log('compTurnArray ' + countTurnArray);
+console.log('compTurn ' +countTurn);
     /*Invoke players turn so that at the end of comp turn the player can click 
     fire on enemy and play */
 playersTurn();
 }
+
+function smartComp(){
+
+}
+
 
 /*Reset Button */
 document.getElementById('reset').addEventListener('click', reset)
@@ -431,7 +619,9 @@ function reset()
         }
         playButton.addEventListener('click', handleClick);
         init();
-        
+        countTurn=0;
+        countTurnArray = [];
+        compGuessArray = [];
         console.log(document.getElementById('user-A1'));
        
         newGame=true;
