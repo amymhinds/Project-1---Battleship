@@ -317,7 +317,7 @@ function compTurn() {
         if (userShips[ShipName].every(x => {
             return x === 'hit'
         })) {
-            checkCompWinnerArray.push(ShipName);
+            compCheckWinnerArray.push(ShipName);
         }
         /*change you won alert to message on board
         if the winner array contains all ships, comp won */
