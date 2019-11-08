@@ -2,7 +2,7 @@
 
 # BATTLESHIP
 ## Description
-
+--- 
 This goal of this game is to sink the computer's ships. User places five ships, (carrier, battleship, cruiser, destroyer 
 and submarine), on the game board. User then clicks 'Fire on Enemy' button to initiate play and fire each time.
 ---
@@ -22,6 +22,8 @@ Incorporate sounds.
 --- 
 Incorporate images of ships.
 
+## Link to GitHub Pages Deployment Link
+https://amymhinds.github.io/Project-1---Battleship/
 
 
 
