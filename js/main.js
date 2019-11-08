@@ -309,7 +309,7 @@ function playersTurn(){
 function compBoardClick(evt) {
     console.log('compboardclick');
     var clickedSpace = evt.target;
-    var clickedId= clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6);
+    var clickedId= clickedSpace.id.charAt(5)+clickedSpace.id.charAt(6)+clickedSpace.id.charAt(7);
     for(compShipName in compShips){
         for(i=0; i<compShipName.length; i++){
             if(clickedId===compShips[compShipName][i]){
@@ -327,8 +327,9 @@ function compBoardClick(evt) {
             checkWinnerArray.includes('randCruiser') &&
             checkWinnerArray.includes('randBattleship') &&
             checkWinnerArray.includes('randSub')){
-                window.alert("You Won!!!!");
+                document.getElementById('title').textContent="You Won!!!!";
         }
+        
     }   
     if(clickedSpace.style.backgroundColor !== 'red'){
         clickedSpace.style.backgroundColor ='white';
@@ -343,367 +344,39 @@ there will be a slight delay */
 
 /*Make the computer's turn function */
 /*Define variables below */
-// var compHits = [];
-// var compMisses= [];
-var countTurn = 0;
-var countTurnArray = [];
-var compGuessArray = [];
+var compHits = [];
+var compMisses= [];
 var randGuess;
 var compGuess;
 var compCheckWinnerArray= [];
-var hitVal='';
-var hitSpace='';
-var hitSpaceArray=[];
-var countSpots=0;
-
-
-
-
-
-function middleElement(){
-
-     /*if last turn was a hit that did not sink a ship and if the one before that was a miss
-            (saying it didnt figure out direction yet of vertical ship or horizontal*/
-                // if((countTurn===2 && countTurnArray[0]==="hit")||
-                // (countTurnArray[countTurnArray.length-1]==="hit"&& 
-                // countTurnArray[countTurnArray.length-1]!=="hit&sunk"&&
-                // countTurnArray[countTurnArray.length-2]==="miss"))
-                
-                
-                
-                //logic for if last one was hit.. dont worry about vertical or horizontal guessing yet
-                /////REPLACE HITSPACE WITH compGuessArray[countTurn-2]
-                
-                    console.log('reached if last turn was a hit and dont know direction');
-                    //guess anywhere directly adjacent
-                    //figure out direction
-                    //if it is not a border element, guess anywhere within the four possibilities
-                    if(hitSpace.charAt(0)!=='A' || hitSpace.charAt(0)!=='J' ||
-                    hitSpace.charAt(1)!=='1'){
-                        console.log('reached if not a border element guess four');
-                        //random num one and four
-                        countSpots+=3;
-                       
-                        randDirection = Math.floor(Math.random()*4+1);
-                        console.log(randDirection);
-                        //vertical up
-                        if(randDirection ===1){
-                            console.log('guess up');
-                            randGuess=board2[board2.indexOf(hitSpace)-10];
-                            compGuess=document.getElementById('user-'+ randGuess);
-                        }
-                        //vertical down
-                        else if(randDirection ===2){
-                            console.log('guess down')
-                            randGuess=board2[board2.indexOf(hitSpace)+10];
-                            compGuess=document.getElementById('user-'+ randGuess);
-                        }
-                        //horizontal right
-                        else if(randDirection ===3){
-                            console.log('guess right')
-                            randGuess=board2[board2.indexOf(hitSpace)+1];
-                            compGuess=document.getElementById('user-'+ randGuess);
-                        }
-                        //horizontal left
-                        else{
-                            console.log('guess left');
-                                randGuess=board2[board2.indexOf(hitSpace)-1];
-                                compGuess=document.getElementById('user-'+ randGuess);
-                        }
-                    
-                    }
-                
-return randGuess;
-}
-function borderElementA(){
-    
-        if(hitSpace.charAt(0)==='A' && hitSpace.charAt(1)!=='1'){
-            countSpots+=4;
-            console.log('reached if border element A')
-             //random num one and four
-             randDirection = Math.floor(Math.random()*3+1);
-             //vertical up
-             if(randDirection ===1){
-                 randGuess=board2[board2.indexOf(hitSpace)-10];
-                 compGuess=document.getElementById('user-'+ randGuess);
-             }
-             //vertical down
-             else if(randDirection ===2){
-                 randGuess=board2[board2.indexOf(hitSpace)+10];
-                 compGuess=document.getElementById('user-'+ randGuess);
-             }
-             //horizontal right
-             else if(randDirection ===3){
-                 randGuess=board2[board2.indexOf(hitSpace)+1];
-                 compGuess=document.getElementById('user-'+ randGuess);
-             }
-         
-    }
-    return randGuess;
-}
- function borderElementJ(){
-
-        if(hitSpace.charAt(0)==='J' && hitSpace.charAt(1)!=='1'){
-            countSpots+=4;
-            //random num one and four
-            console.log('reached if border element j')
-            randDirection = Math.floor(Math.random()*3+1);
-            //vertical up
-            if(randDirection ===1){
-                randGuess=board2[board2.indexOf(hitSpace)-10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //vertical down
-            else if(randDirection ===2){
-                randGuess=board2[board2.indexOf(hitSpace)+10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //horizontal left
-            else if(randDirection ===3){
-                randGuess=board2[board2.indexOf(hitSpace)-1];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-        
-    }
-    return randGuess;
- }        
-function bottomRow10(){
-    
-        if(hitSpace.charAt(2)==='0' && (hitSpace.charAt(0)!=='A'
-             ||compGuessArray[countTurn-2].charAt(0)!=='J'))
-                {
-                    countSpots+=4;
-                    console.log('reached if bottom row 10');
-                //random num one and four
-                randDirection = Math.floor(Math.random()*3+1);
-                //horizontal right
-                if(randDirection ===1){
-                    randGuess=board2[board2.indexOf(hitSpace)+1];
-                    compGuess=document.getElementById('user-'+ randGuess);
-                }
-                //vertical up
-                else if(randDirection ===2){
-                    randGuess=board2[board2.indexOf(hitSpace)-10];
-                    compGuess=document.getElementById('user-'+ randGuess);
-                }
-                //horizontal left
-                else if(randDirection ===3){
-                    randGuess=board2[board2.indexOf(hitSpace)-1];
-                    compGuess=document.getElementById('user-'+ randGuess);
-                }
-            
-    }
-return randGuess;
-}          
- function topRowNotCorner(){
-    
-    if(hitSpace.charAt(1)==='1' && (hitSpace.charAt(0)!=='A'
-    ||hitSpace.charAt(0)!=='J'))
-       {
-        countSpots+=4;
-           console.log('reached if top row');
-       //random num one and four
-       randDirection = Math.floor(Math.random()*3+1);
-       //horizontal right
-       if(randDirection ===1){
-           randGuess=board2[board2.indexOf(hitSpace)+1];
-           compGuess=document.getElementById('user-'+ randGuess);
-       }
-       //vertical down
-       else if(randDirection ===2){
-           randGuess=board2[board2.indexOf(hitSpace)+10];
-           compGuess=document.getElementById('user-'+ randGuess);
-       }
-       //horizontal left
-       else if(randDirection ===3){
-           randGuess=board2[board2.indexOf(hitSpace)-1];
-           compGuess=document.getElementById('user-'+ randGuess);
-       }
-    
-    }
-    return randGuess;
-}
-           
-function A1(){
-    
-        if (hitSpace==='A1'){
-            countSpots+=6;
-            randDirection =Math.floor(random()*2+1);
-            //horizontal right
-            if(randDirection ===1){
-                randGuess=board2[board2.indexOf(hitSpace)+1];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //vertical down
-            else if(randDirection ===2){
-                randGuess=board2[board2.indexOf(hitSpace)+10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-        
-    }
-    return randGuess;
-}
-function A10(){
-    
-        if (hitSpace==='A10'){
-            countSpots+=6;
-            randDirection =Math.floor(random()*2+1);
-            //horizontal left
-            if(randDirection ===1){
-                randGuess=board2[board2.indexOf(hitSpace)-1];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //vertical down
-            else if(randDirection ===2){
-                randGuess=board2[board2.indexOf(hitSpace)+10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-        
-        }
-    return randGuess;
-}
- function J1(){
-   
-        if (hitSpace==='J1'){
-            countSpots+=6;
-            randDirection =Math.floor(random()*2+1);
-            //horizontal right
-            if(randDirection ===1){
-                randGuess=board2[board2.indexOf(hitSpace)+1];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //vertical up
-            else if(randDirection ===2){
-                randGuess=board2[board2.indexOf(hitSpace)-10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-        }
-    
-    return randGuess;
- }           
- function J10(){
-   
-        if (hitSpace==='J10'){
-            countSpots+=6;
-            randDirection =Math.floor(random()*2+1);
-            //horizontal left
-            if(randDirection ===1){
-                randGuess=board2[board2.indexOf(hitSpace)-1];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-            //vertical up
-            else if(randDirection ===2){
-                randGuess=board2[board2.indexOf(hitSpace)-10];
-                compGuess=document.getElementById('user-'+ randGuess);
-            }
-        }
-    
-    return randGuess;
- }           
-
 function compTurn() {
-    countTurn+=1;
+    //if(newGame===true ){
+    // for(i=0;i<100;i++){
+    //     if(document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black'){
+    //     document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';    
+    //     }
+    //     }
+   //}
+   console.log('computer is taking turn');
+   
     gameBoard1.style.display = "";
     gameBoard2.style.display = "none";
     playerHeader.style.display = "";
     compHeader.style.display = "none";
-    //randGuess = board2[Math.floor(Math.random() * 100)];
-    //randGuess = 'E3';
-    //compGuess = document.getElementById('user-'+randGuess);
-
- 
-    if(countSpots<12 && countTurnArray[countTurnArray.length-1]==="hit"){
-        middleElement();
-        while(compGuessArray.includes(randGuess)){
-            middleElement();
-        }
-        borderElementA();
-        while(compGuessArray.includes(randGuess)){
-            borderElementA();
-        }
-        borderElementJ();
-        while(compGuessArray.includes(randGuess)){
-            borderElementJ();
-        }
-        bottomRow10();
-        while(compGuessArray.includes(randGuess)){
-            bottomRow10();
-        }
-        topRowNotCorner();
-            while(compGuessArray.includes(randGuess)){
-                topRowNotCorner();
-            }
-        A1();
-        while(compGuessArray.includes(randGuess)){
-            A1();
-        }
-        A10();
-        while(compGuessArray.includes(randGuess)){
-            A10();
-        }
-        J1();
-        while(compGuessArray.includes(randGuess)){
-            J10();
-        }
-       J1();
-        while(compGuessArray.includes(randGuess)){
-            J10();
-        }
-    }  
-    else {
-        randGuess = board2[Math.floor(Math.random() * 100)];
-        countSpots = 0;
-    }
-     
-                
+    randGuess = board2[Math.floor(Math.random() * 100)];
     compGuess = document.getElementById('user-'+randGuess);
-
     for(ShipName in userShips){
-        //if the previous guess was not a hit or was sunk
-        //if(countTurn===1||countTurnArray[countTurn-1]!=="hit"||countTurnArray[countTurn-1]==="hit&sunk"){
-            console.log("ENTERING IF STATMENT")
         for(i=0; i<ShipName.length; i++){
             /*Color red if its a hit */
             if(randGuess===userShips[ShipName][i]){
                 compGuess.style.backgroundColor='red';
                 userShips[ShipName][i]='hit';
-                hitVal='hit';
-                hitSpace=randGuess;
-                //hitSpaceArray.push(hitSpace);
-                //countTurnArray.push(hitVal);
             }  
         }
-
-        // }
-       
-  
-
-            for(i=0; i<ShipName.length; i++){
-                /*Color red if its a hit */
-                if(randGuess===userShips[ShipName][i]){
-                    compGuess.style.backgroundColor='red';
-                    userShips[ShipName][i]='hit';
-                    hitVal='hit';
-                    hitSpace=randGuess;
-                    //hitSpaceArray.push(hitSpace);
-                   // countTurnArray.push(hitVal);
-                }  
-            }
-
-
-        }
-
-
-
-
-
             /*if the ship array in the userShips object is completely hit, it is sunk */
             if(userShips[ShipName].every(x=> {
                 return x==='hit' })){
-                   compCheckWinnerArray.push(ShipName);
-                   hitVal='hit&sunk';
-                   //countTurnArray.push(hitVal);
-
+                   checkCompWinnerArray.push(ShipName);
                 }
             /*change you won alert to message on board
             if the winner array contains all ships, comp won */ 
@@ -712,46 +385,23 @@ function compTurn() {
             compCheckWinnerArray.includes('cruiser') &&
             compCheckWinnerArray.includes('battleship') &&
             compCheckWinnerArray.includes('sub')){
-                window.alert("Comp Won");
+             document.getElementById('title').textContent="Comp Won";
             }
-    
-
+    }
 
 if(compGuess.style.backgroundColor !== 'red'){
     compGuess.style.backgroundColor ='white';
-    /*only push miss if the last one was not a hit...
-    important in case you miss multiple times guessing adjacent to a cell*/
-    if(countTurnArray[countTurn-1]!=='hit'){
-        hitVal='miss';
-        //countTurnArray.push(hitVal);
     }
-    
-    }
-    compGuessArray.push(randGuess);
-    hitSpaceArray.push(hitSpace);
-    
-
-
-if((countTurnArray[countTurn-2]!=='miss' && hitVal !== 'miss')|| countTurn===2 ||countTurn===1){
-    countTurnArray.push(hitVal);
-}
-console.log('compTurnArray ' + countTurnArray);
-console.log('compTurn ' +countTurn);
     /*Invoke players turn so that at the end of comp turn the player can click 
     fire on enemy and play */
 playersTurn();
 }
 
-function smartComp(){
-
-}
-
-
 /*Reset Button */
 document.getElementById('reset').addEventListener('click', reset)
 function reset()
 {
-    
+    document.getElementById('title').textContent="BATTLESHIP";
     console.log('reset');
     
     document.querySelectorAll('.space').forEach(x=>{
@@ -782,9 +432,7 @@ function reset()
         }
         playButton.addEventListener('click', handleClick);
         init();
-        countTurn=0;
-        countTurnArray = [];
-        compGuessArray = [];
+        
         console.log(document.getElementById('user-A1'));
        
         newGame=true;
