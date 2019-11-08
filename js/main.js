@@ -276,6 +276,7 @@ function computerShipPlacement(){
         horizontal();
         }
     }
+    //lalalalala
     /*color the spaces in the compShip object black
     for developers ease to guess and test game.
     Will comment out when playing game*/
