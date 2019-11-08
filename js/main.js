@@ -4,7 +4,6 @@ var gameBoard2 = document.getElementById('grid-2');
 const playButton = document.getElementById('play');
 var playerHeader = document.getElementById('playerGridTitle');
 var compHeader = document.getElementById('compGridTitle');
-var newGame;
 /* initialize user ship arrays*/
 var userShips = {
     carrier: [null, null, null, null, null],
@@ -158,16 +157,9 @@ function shipClick(evt) {
             }
             )
         }
-
-
-
-
-        console.log('placement' + placement);
-
         if (clickedSpace.style.backgroundColor === 'black') {
             shipArray.splice(shipArray.indexOf(null), 1, clickedSpaceId);
         }
-
         /*Once there are no more nulls in the array, move on to the next ship
         by increasing the index in the usership object
         Also add a note to the user to set the next ship */
@@ -202,9 +194,6 @@ function toggleToCompBoard(evt) {
 /*define variables to help in setting up the ships*/
 let compShipName = Object.keys(compShips);
 let compShipIndex = 0;
-
-/*function to getnerate random numbers and create 
-Computer ship placement */
 var vertOrHor = 2;
 var vertRandCol;
 var vertRandRow;
@@ -212,6 +201,8 @@ var horRandCol;
 var horRandRow;
 var horColIndex;
 var compShipSpaces = [];
+/*function to getnerate random numbers and create 
+Computer ship placement */
 function computerShipPlacement() {
     for (compShipName in compShips) {
         vertOrHor = Math.floor(Math.random() * 2 + 1);
@@ -271,35 +262,19 @@ function computerShipPlacement() {
             horizontal();
         }
     }
-    /*color the spaces in the compShip object black
-    for developers ease to guess and test game.
-    Will comment out when playing game*/
-    // for(compShipName in compShips){
-    //     compShips[compShipName].forEach(x=>{  
-    //        document.getElementById('comp-'+x).style.backgroundColor = 'black';
-    //     })
-    // }  
     /*After comp ship place ships, call players turn function*/
     console.log('compshipplacement');
     playersTurn();
-    newGame = true;
 }
-
 /*invoke comp ship placement*/
 computerShipPlacement();
 
 var checkWinnerArray = [];
 /*make function for player to be able to fire on comp ships */
 function playersTurn() {
-    // gameBoard1.style.display = "none";
-    // gameBoard2.style.display = "";
     console.log('players turn');
     gameBoard2.addEventListener('click', compBoardClick);
-    /*Create a click function that changes the comp board*/
-
-
 }
-
 
 function compBoardClick(evt) {
     console.log('compboardclick');
@@ -337,7 +312,6 @@ function compBoardClick(evt) {
 
 }
 
-
 /*Make the computer's turn function */
 /*Define variables below */
 var compHits = [];
@@ -346,15 +320,6 @@ var randGuess;
 var compGuess;
 var compCheckWinnerArray = [];
 function compTurn() {
-    //if(newGame===true ){
-    // for(i=0;i<100;i++){
-    //     if(document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black'){
-    //     document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';    
-    //     }
-    //     }
-    //}
-    console.log('computer is taking turn');
-
     gameBoard1.style.display = "";
     gameBoard2.style.display = "none";
     playerHeader.style.display = "";
@@ -398,8 +363,6 @@ function compTurn() {
 document.getElementById('reset').addEventListener('click', reset)
 function reset() {
     document.getElementById('title').textContent = "BATTLESHIP";
-    console.log('reset');
-
     document.querySelectorAll('.space').forEach(x => {
         x.style.backgroundColor = 'transparent';
     })
@@ -428,11 +391,6 @@ function reset() {
     }
     playButton.addEventListener('click', handleClick);
     init();
-
-    console.log(document.getElementById('user-A1'));
-
-    newGame = true;
-
     for (i = 0; i < 100; i++) {
         if (document.getElementById(`user-${board1[i]}`).style.backgroundColor !== 'black') {
             document.getElementById(`user-${board1[i]}`).style.backgroundColor = 'transparent';
