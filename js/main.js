@@ -58,8 +58,6 @@ function init() {
     gameBoard2.style.display = "none";
     compHeader.style.display = "none";
     gameBoard1.style.display = '';
-
-
 }
 init();
 
@@ -83,14 +81,10 @@ function shipClick(evt) {
     let shipArray = userShips[shipName[shipIndex]];
     var clickedSpace = evt.target;
     var rowNum = clickedSpace.id.charAt(6) + clickedSpace.id.charAt(7);
-
     var clickedSpaceId = clickedSpace.id.charAt(5) + clickedSpace.id.charAt(6) + clickedSpace.id.charAt(7);
     var clickedSpaceIdIndex = board1.indexOf(clickedSpaceId);
-
-
     if (clickedSpace.style.backgroundColor !== 'black') {
         //clickedSpace.style.backgroundColor= 'black';
-
         if (shipArray[0] === null) {
             clickedSpace.style.backgroundColor = 'black';
         }
@@ -108,7 +102,6 @@ function shipClick(evt) {
                     (board1.indexOf(shipArray[0]) === clickedSpaceIdIndex + 1))) {
                 clickedSpace.style.backgroundColor = 'black';
             }
-
             if ((parseInt(shipArray[0].charAt(1) + shipArray[0].charAt(2)) === parseInt(rowNum) + 1 &&
                 shipArray[0].charAt(0) === clickedSpaceId.charAt(0)) ||
                 parseInt(shipArray[0].charAt(1) + shipArray[0].charAt(2)) === parseInt(rowNum) - 1
@@ -120,16 +113,11 @@ function shipClick(evt) {
                 placement = "horizontal";
             }
         }
-
         /*takes the first null in the ship array and replaces it with the id
         of the clicked square */
-
         if (placement === 'vertical' && shipArray[1] !== null) {
-
-
-            shipArray.forEach(x => {
+             shipArray.forEach(x => {
                 if (x === null) {
-
                 }
                 else if (((parseInt(x.charAt(1) + x.charAt(2)) === parseInt(rowNum) + 1)
                     && x.charAt(0) === clickedSpaceId.charAt(0)) ||
@@ -140,13 +128,9 @@ function shipClick(evt) {
             }
             )
         }
-
         if (placement === 'horizontal' && shipArray[1] !== null) {
-
-
             shipArray.forEach(x => {
                 if (x === null) {
-
                 }
                 else if (((board1.indexOf(x) === board1.indexOf(clickedSpaceId) + 1)
                     && x.charAt(1) + x.charAt(2) === rowNum) ||
@@ -263,7 +247,6 @@ function computerShipPlacement() {
         }
     }
     /*After comp ship place ships, call players turn function*/
-    console.log('compshipplacement');
     playersTurn();
 }
 /*invoke comp ship placement*/
@@ -272,12 +255,10 @@ computerShipPlacement();
 var checkWinnerArray = [];
 /*make function for player to be able to fire on comp ships */
 function playersTurn() {
-    console.log('players turn');
     gameBoard2.addEventListener('click', compBoardClick);
 }
 
 function compBoardClick(evt) {
-    console.log('compboardclick');
     var clickedSpace = evt.target;
     var clickedId = clickedSpace.id.charAt(5) + clickedSpace.id.charAt(6) + clickedSpace.id.charAt(7);
     for (compShipName in compShips) {
@@ -309,9 +290,7 @@ function compBoardClick(evt) {
     there will be a slight delay */
     gameBoard2.removeEventListener('click', compBoardClick);
     setTimeout(compTurn, 2000);
-
 }
-
 /*Make the computer's turn function */
 /*Define variables below */
 var compHits = [];
